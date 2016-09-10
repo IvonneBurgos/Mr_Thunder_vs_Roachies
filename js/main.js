@@ -18,9 +18,8 @@ var GameState = {
   //load the game assets before the game starts
   preload: function() {
     
-    this.load.image('background', 'assets/images/baño.jpg');  
-    this.game.load.image('spray', 'assets/images/spray.png'); 
-    this.game.load.spritesheet('cosas', 'assets/images/bano_cosas-01.png', 35, 57);
+    this.game.load.image('spray', 'assets/images/spray-01.png'); 
+    this.game.load.spritesheet('cosas', 'assets/images/items-01.png', 58, 60);
     this.game.load.spritesheet('roach', 'assets/images/roachies-01.png', 60, 61, 1, 1, 1);  
       
   },
@@ -29,22 +28,20 @@ var GameState = {
   create: function() {    
     
     //create a sprite for the background
-    this.background = this.game.add.sprite(0, 0, 'background');
-    this.background.width = this.game.width;
-    this.background.height = this.game.height;
+    
     
     //spray
     this.spray = this.game.add.sprite(40, 50, 'spray');
     this.spray.enableBody = true;
     this.spray.anchor.setTo(0.5, 0.5);
-    this.spray.scale.setTo(0.3); 
+    //this.spray.scale.setTo(0.3); 
     this.game.physics.arcade.enable(this.spray);
     this.spray.customParams ={health: 100};
    
       //items
     this.items = this.add.group();
     this.items.enableBody = true;
-    for (var i=0; i< 40; i++){
+    for (var i=0; i< 30; i++){
     this.items.create(this.game.rnd.between(60, 700), this.game.rnd.between(100, 700), 'cosas', this.game.rnd.between(0, 10)); 
     };
       
@@ -58,7 +55,7 @@ var GameState = {
       this.game.physics.arcade.enable(this.roachies);
       this.game.physics.arcade.enable(this.items);
     //texto
-    this.text = this.game.add.text(700, 40, 'Tiempo: 60', { font: "25px Arial", fill: "000000", align: "center" });
+    this.text = this.game.add.text(700, 40, 'Tiempo: 60', { font: "25px Arial", fill: "#fff", align: "center" });
     this.text.anchor.setTo(0.5, 0.5);
     this.style = {font: '20px Arial', fill:'#fff'};
     this.game.add.text(10,20,'Health: ', this.style);
