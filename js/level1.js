@@ -16,14 +16,18 @@ level1.prototype = {
     this.cursors = this.game.input.keyboard.createCursorKeys();
     this.counter=60;
     this.RUNNING_SPEED = 150;
+    this.roachDead = 0;
+      this.locs = [];
+      this.groupCosas;
   },
 
   //load the game assets before the game starts
   preload: function() {
     this.game.load.image('gameover',"assets/images/GameImage-03.png");
-    this.game.load.image('spray', 'assets/images/spray-01.png'); 
+    this.game.load.image('youwin',"assets/images/GameImage-04.png");
+    this.game.load.image('spray', 'assets/images/spray.png'); 
     this.game.load.spritesheet('cosas', 'assets/images/items-01.png', 58, 60);
-    this.game.load.spritesheet('roach', 'assets/images/roachies-01.png', 60, 61, 1, 1, 1);  
+    this.game.load.image('roach', 'assets/images/roach.png', 48, 58);  
       
   },
   
@@ -31,8 +35,8 @@ level1.prototype = {
   create: function() {    
     
     //create a sprite for the background
-    
-    
+     var snap = this.game.math.snapTo(this.game.world.randomX, 32) / 32;
+    console.log('holis '+snap);
     //spray
     this.spray = this.game.add.sprite(40, 50, 'spray');
     this.spray.enableBody = true;
@@ -42,13 +46,17 @@ level1.prototype = {
     this.spray.customParams ={health: 100};
    
       //items
-    this.items = this.add.group();
-    this.items.enableBody = true;
-    for (var i=0; i< 30; i++){
-    this.items.create(this.game.rnd.between(60, 700), this.game.rnd.between(100, 700), 'cosas', this.game.rnd.between(0, 4)); 
-    };
-      
-      //roachies
+   
+      this.groupCosas = this.add.group();
+    
+      this.groupCosas.enableBody = true;
+        for (var i=0; i< 30; i++){ 
+            this.createUniqueLocation();
+        };
+      this.groupCosas.forEach(function(item) {
+          item.animations.add('blink', [this.game.rnd.between(0, 4), this.game.rnd.between(0, 4), this.game.rnd.between(0, 4), this.game.rnd.between(0, 4)], 6, true);
+          item.animations.play('blink');
+        }, this);
     this.roachies = this.add.group();
     for (var j=0; j< 10; j++){
         this.roachies.create(this.game.rnd.between(60, 700), this.game.rnd.between(100, 700), 'roach', 1); 
@@ -56,7 +64,7 @@ level1.prototype = {
     };
       //fisica
       this.game.physics.arcade.enable(this.roachies);
-      this.game.physics.arcade.enable(this.items);
+      this.game.physics.arcade.enable(this.groupCosas);
     //texto
     this.text = this.game.add.text(700, 40, 'Tiempo: 60', { font: "25px Arial", fill: "#fff", align: "center" });
     this.text.anchor.setTo(0.5, 0.5);
@@ -65,7 +73,7 @@ level1.prototype = {
     this.healthText = this.game.add.text(80,20,'',this.style);  
     this.refreshStats();
       
-    this.items.setAll('body.immovable', true);
+    this.groupCosas.setAll('body.immovable', true);
     this.roachies.setAll('body.immovable', true);
 
       
@@ -76,7 +84,7 @@ level1.prototype = {
   update: function() {
       
     this.game.physics.arcade.collide(this.spray, this.roachies, this.collisionHandler, null, this);
-    this.game.physics.arcade.collide(this.spray, this.items, this.collisionHandlerItems, null, this);
+    this.game.physics.arcade.collide(this.spray, this.groupCosas, this.collisionHandlerItems, null, this);
     this.spray.body.velocity.x = 0;
     this.spray.body.velocity.y = 0;
 
@@ -98,6 +106,26 @@ level1.prototype = {
         this.spray.body.velocity.y = this.RUNNING_SPEED;
     }
   },
+    createUniqueLocation: function() {
+
+    do {
+        var x = this.game.math.snapTo( this.game.rnd.between(60, 700), 58) / 58;
+        var y = this.game.math.snapTo( this.game.rnd.between(100, 700), 58) / 58;
+
+        if (y > 30)
+        {
+            y = 30;
+        }
+
+        var idx = (y * 30) + x;
+    }
+    while (this.locs.indexOf(idx) !== -1)
+
+    this.locs.push(idx);
+
+    this.groupCosas.create(x * 58, y * 58, 'cosas', this.game.rnd.integerInRange(0, 4));
+
+},
     
     refreshStats: function(){
         this.healthText.text = this.spray.customParams.health;
@@ -116,17 +144,28 @@ level1.prototype = {
         if (this.spray.customParams.health > 0){
             this.spray.customParams.health -= 5;
             roachies.kill();
+            this.roachDead +=1;
             this.refreshStats();
+            if (this.roachDead == 10){
+                this.game.state.start("YouWin");
+            }
+        } else {
+            this.healthState();
         }
     },
-    collisionHandlerItems:function (spray, items) {
-        
-        if (this.spray.customParams.health > 0){
-          this.spray.customParams.health -= 1;
-          this.refreshStats();}
-    
+    collisionHandlerItems:function (spray, groupCosas) {
+
+    if (this.spray.customParams.health > 0){
+        this.spray.customParams.health -= 1;
+        this.refreshStats();
+    } else {
+        this.healthState();
     }
-    
+    },
+    healthState: function (){
+        this.game.state.start("GameOver");
+    }
+
 }
 
 

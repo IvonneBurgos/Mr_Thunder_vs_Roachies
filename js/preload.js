@@ -7,7 +7,7 @@ preload.prototype = {
 	},
   	create: function(){
  		var playButton = this.game.add.button(0,0,"loading",this.playTheGame,this);
-		
+		this.music = this.game.sound.play('intro');
 	},
 	playTheGame: function(){
 		this.game.state.start("instruction");
