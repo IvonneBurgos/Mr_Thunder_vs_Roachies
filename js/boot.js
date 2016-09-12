@@ -4,7 +4,7 @@ var boot = function(game){
   
 boot.prototype = {
 	preload: function(){
-        this.game.load.image("loading","../assets/images/GameTitle.jpg");
+        this.game.load.image("loading","../assets/images/GameTitle-01.jpg");
         
     },
   	create: function(){
