@@ -27,7 +27,9 @@ level1.prototype = {
     this.game.load.image('youwin',"assets/images/GameImage-04.png");
     this.game.load.image('spray', 'assets/images/spray.png'); 
     this.game.load.spritesheet('cosas', 'assets/images/items-01.png', 58, 60);
-    this.game.load.image('roach', 'assets/images/roach.png', 48, 58);  
+    this.game.load.image('roach', 'assets/images/roach.png', 48, 58); 
+      this.game.load.audio('win', ['assets/audio/win.mp3']);
+      this.game.load.audio('gameover', ['assets/audio/gameover.mp3']);
       
   },
   

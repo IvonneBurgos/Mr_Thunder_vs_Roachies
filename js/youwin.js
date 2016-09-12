@@ -11,5 +11,9 @@ youwin.prototype = {
 	},
   	create: function(){
 		var playButton = this.game.add.button(0,0,"youwin",this.playTheGame,this);
-	}
+        this.music = this.game.sound.play('win');
+	},
+    /*playTheGame:function(){
+        this.game.state.start("level2");
+    }*/
 }
