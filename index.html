@@ -5,22 +5,46 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
 		<title>Mr. Thunder vs. Roachies - The Game</title>
-		<script type="text/javascript" src="js/phaser.js">
-        </script>		
-
-		<style>
-		  body {
-		    padding: 0px;
-		    margin: 0px;
-		    background-color: black;
-		  }
-             </style>
- 
+        <script type="text/javascript" src="js/phaser.js"></script>	
         
+        <script src="src/boot.js"></script>
+		<script src="src/preload.js"></script>
+		<script src="src/info_level1.js"></script>
+        <script src="src/info_level2.js"></script>
+        <script src="src/info_level3.js"></script>
+        <script src="js/level1.js"></script>
+        <script src="js/level2.js"></script>
+        <script src="js/level3.js"></script>
+		<script src="src/gameover.js"></script>
+        <script src="src/youwin.js"></script>	
+
+        <style>
+            body 
+            {
+                padding: 0px;
+                margin: 0px;
+                background-color: black;
+            }
+        </style>
+        <script>
+        (function() {
+            var game = new Phaser.Game(320, 480, Phaser.CANVAS, "game");
+            game.state.add("Boot",boot);
+            game.state.add("Preload",preload);
+            game.state.add("info_level1",info_level1);
+            game.state.add("info_level2",info_level2);
+            game.state.add("info_level3",info_level3);
+            game.state.add("level1",level1);
+            game.state.add("level2",level2);
+            game.state.add("level3",level3);
+            game.state.add("YouWin",youwin);
+            game.state.add("GameOver",gameOver);
+            game.state.start("Boot");
+        })();    
+        </script>
+
 	</head>
 
 	<body>  
-		<!-- include the main game file -->
-		<script src="js/main.js"></script>
 	</body>
 </html>

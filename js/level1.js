@@ -109,15 +109,11 @@ var GameState = {
     }
 },
     collisionHandler:function (spray, roachies) {
-        
         if (this.spray.customParams.health > 0){
             this.spray.customParams.health -= 5;
             roachies.kill();
             this.refreshStats();
         }
-        
-            
-    
     },
     collisionHandlerItems:function (spray, items) {
         
