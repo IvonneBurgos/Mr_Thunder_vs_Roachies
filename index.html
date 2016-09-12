@@ -7,16 +7,17 @@
 		<title>Mr. Thunder vs. Roachies - The Game</title>
         <script type="text/javascript" src="js/phaser.js"></script>	
         
-        <script src="src/boot.js"></script>
-		<script src="src/preload.js"></script>
-		<script src="src/info_level1.js"></script>
-        <script src="src/info_level2.js"></script>
-        <script src="src/info_level3.js"></script>
-        <script src="js/level1.js"></script>
-        <script src="js/level2.js"></script>
+        <script src="js/boot.js"></script>
+		<script src="js/preload.js"></script>
+		<script src="js/info_level1.js"></script>
+       <!-- <script src="js/info_level2.js"></script>
+        <script src="js/info_level3.js"></script>
+        <script src="js/level1.js"></script>-->
+       <!-- <script src="js/level2.js"></script>
         <script src="js/level3.js"></script>
-		<script src="src/gameover.js"></script>
-        <script src="src/youwin.js"></script>	
+		<script src="js/gameover.js"></script>
+        <script src="js/youwin.js"></script>
+<script src="js/theend.js"></script>-->
 
         <style>
             body 
@@ -32,13 +33,13 @@
             game.state.add("Boot",boot);
             game.state.add("Preload",preload);
             game.state.add("info_level1",info_level1);
-            game.state.add("info_level2",info_level2);
-            game.state.add("info_level3",info_level3);
-            game.state.add("level1",level1);
-            game.state.add("level2",level2);
+            /*game.state.add("info_level2",info_level2);
+            game.state.add("info_level3",info_level3);*/
+           // game.state.add("level1",level1);
+          /*  game.state.add("level2",level2);
             game.state.add("level3",level3);
             game.state.add("YouWin",youwin);
-            game.state.add("GameOver",gameOver);
+            game.state.add("GameOver",gameOver);*/
             game.state.start("Boot");
         })();    
         </script>
