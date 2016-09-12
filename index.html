@@ -9,7 +9,10 @@
         
         <script src="js/boot.js"></script>
 		<script src="js/preload.js"></script>
+        <script src="js/instruction.js"></script>
 		<script src="js/info_level1.js"></script>
+        <script src="js/level1.js"></script>
+        <script src="js/gameover.js"></script>
        <!-- <script src="js/info_level2.js"></script>
         <script src="js/info_level3.js"></script>
         <script src="js/level1.js"></script>-->
@@ -29,10 +32,13 @@
         </style>
         <script>
         (function() {
-            var game = new Phaser.Game(320, 480, Phaser.CANVAS, "game");
+            var game = new Phaser.Game(800, 800, Phaser.CANVAS, "game");
             game.state.add("Boot",boot);
             game.state.add("Preload",preload);
+            game.state.add("instruction",instruction);
             game.state.add("info_level1",info_level1);
+            game.state.add("level1",level1);
+            game.state.add("GameOver",gameover)
             /*game.state.add("info_level2",info_level2);
             game.state.add("info_level3",info_level3);*/
            // game.state.add("level1",level1);

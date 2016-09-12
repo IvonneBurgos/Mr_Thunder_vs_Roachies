@@ -1,5 +1,8 @@
 //this game will have only 1 state
-var GameState = {
+var level1 = function(game){
+console.log('Inicio de Juego');
+}
+level1.prototype = {
 
   //initiate game settings
   init: function() {
@@ -17,7 +20,7 @@ var GameState = {
 
   //load the game assets before the game starts
   preload: function() {
-    
+    this.game.load.image('gameover',"assets/images/GameImage-03.png");
     this.game.load.image('spray', 'assets/images/spray-01.png'); 
     this.game.load.spritesheet('cosas', 'assets/images/items-01.png', 58, 60);
     this.game.load.spritesheet('roach', 'assets/images/roachies-01.png', 60, 61, 1, 1, 1);  
@@ -42,14 +45,14 @@ var GameState = {
     this.items = this.add.group();
     this.items.enableBody = true;
     for (var i=0; i< 30; i++){
-    this.items.create(this.game.rnd.between(60, 700), this.game.rnd.between(100, 700), 'cosas', this.game.rnd.between(0, 10)); 
+    this.items.create(this.game.rnd.between(60, 700), this.game.rnd.between(100, 700), 'cosas', this.game.rnd.between(0, 4)); 
     };
       
       //roachies
     this.roachies = this.add.group();
     for (var j=0; j< 10; j++){
         this.roachies.create(this.game.rnd.between(60, 700), this.game.rnd.between(100, 700), 'roach', 1); 
-        //this.roachies.scale.setTo(1);
+
     };
       //fisica
       this.game.physics.arcade.enable(this.roachies);
@@ -106,6 +109,7 @@ var GameState = {
     }
       else {
           this.game.time.events.destroy();
+          this.game.state.start("GameOver");
     }
 },
     collisionHandler:function (spray, roachies) {
@@ -123,14 +127,7 @@ var GameState = {
     
     }
     
-};
+}
 
-//initiate the Phaser framework
-var game = new Phaser.Game(800, 800, Phaser.AUTO);
-var bounds;
 
-var texture;
-
-game.state.add('GameState', GameState);
-game.state.start('GameState');
 
