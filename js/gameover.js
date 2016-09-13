@@ -5,7 +5,7 @@ var gameover = function(game){
 gameover.prototype = {
 	preload: function(){
         console.log('hello its me game over');
-        this.game.load.audio('introlater', ['assets/audio/Intro.mp3']);
+        this.game.load.sound('introlater', ['assets/audio/Intro.mp3']);
         this.game.sound.removeByKey('intro');
         
 	},
