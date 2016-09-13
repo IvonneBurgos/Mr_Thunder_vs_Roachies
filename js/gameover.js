@@ -5,7 +5,7 @@ var gameover = function(game){
 gameover.prototype = {
 	preload: function(){
         console.log('hello its me game over');
-        this.game.sound.stopAll();
+       // this.game.sound.stopAll();
         
 	},
   	create: function(){

@@ -23,6 +23,8 @@ level1.prototype = {
 
   //load the game assets before the game starts
   preload: function() {
+    this.game.load.audio('intro', ['assets/audio/Intro.mp3']);
+    this.game.load.audio('introlater', ['assets/audio/Intro.mp3']);
     this.game.load.image('gameover',"assets/images/GameImage-03.png");
     this.game.load.image('youwin',"assets/images/GameImage-04.png");
     this.game.load.image('spray', 'assets/images/spray.png'); 
@@ -34,7 +36,7 @@ level1.prototype = {
   create: function() {    
     
     //create a sprite for the background
-     var snap = this.game.math.snapTo(this.game.world.randomX, 32) / 32;
+    var snap = this.game.math.snapTo(this.game.world.randomX, 32) / 32;
     console.log('holis '+snap);
     //spray
     this.spray = this.game.add.sprite(40, 50, 'spray');
@@ -136,6 +138,7 @@ level1.prototype = {
     }
       else {
           this.game.time.events.destroy();
+          this.game.cache.removeSound('intro');
           this.game.state.start("GameOver");
     }
 },
