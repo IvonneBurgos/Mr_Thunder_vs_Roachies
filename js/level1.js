@@ -165,6 +165,8 @@ level1.prototype = {
     }
     },
     healthState: function (){
+        this.game.cache.removeSound('intro');
+        this.game.sound.destroy();
         this.game.state.start("GameOver");
     }
 
