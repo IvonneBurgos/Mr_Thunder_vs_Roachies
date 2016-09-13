@@ -84,13 +84,12 @@ level1.prototype = {
     this.game.add.text(410,20,'Attempts: ', this.style);
     this.attempts = this.game.add.text(500,20,'',this.style);
     this.game.add.text(300,20,'Score: ', this.style);
-    this.score = this.game.add.text(350,20,'',this.style2);
+    this.score = this.game.add.text(360,20,'',this.style2);
     this.refreshStats();
       
     this.groupCosas.setAll('body.immovable', true);
     this.roachies.setAll('body.immovable', true);
       //cronometro - tiempo
-      console.log("aaa :  " + this.interval);
     this.timer.loop(this.interval, this.updateCounter, this);
     this.timer.start();
   }, 
@@ -143,6 +142,7 @@ level1.prototype = {
     refreshStats: function(){
         this.healthText.text = this.spray.customParams.health;
         this.attempts.text = this.spray.customParams.attempts;
+        this.score.text = this.spray.customParams.score;
     },
   updateCounter:function() {
     if (this.counter > 0){
@@ -169,6 +169,7 @@ level1.prototype = {
             this.spray.customParams.health -= 5;
             roachies.kill();
             this.roachDead +=1;
+            this.spray.customParams.score +=10;
             this.refreshStats();
             if (this.roachDead == 10){
                 this.game.state.start("YouWin");
