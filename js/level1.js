@@ -14,11 +14,12 @@ level1.prototype = {
       
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
     this.cursors = this.game.input.keyboard.createCursorKeys();
-    this.counter=60;
+    
     this.RUNNING_SPEED = 150;
-    this.roachDead = 0;
-      this.locs = [];
-      this.groupCosas;
+    this.locs = [];
+    this.groupCosas;
+    this.customParams = {health: 100, attempts: 3, score:0};
+    this.interval = Phaser.Timer.SECOND * 1;
   },
 
   //load the game assets before the game starts
@@ -34,25 +35,31 @@ level1.prototype = {
   },
   
     //executed after everything is loaded
-  create: function() {    
+  create: function() {  
+    this.timer = this.game.time.create(false);
     
+    this.roachDead = 0;
+    this.counter=60;
+      
+    this.customParams.health = 100;
+    this.customParams.score = 0;
     //create a sprite for the background
     var snap = this.game.math.snapTo(this.game.world.randomX, 32) / 32;
-    console.log('holis '+snap);
     //spray
     this.spray = this.game.add.sprite(40, 50, 'spray');
     this.spray.enableBody = true;
     this.spray.anchor.setTo(0.5, 0.5);
+      this.spray.scale.setTo(0.7);
     //this.spray.scale.setTo(0.3); 
     this.game.physics.arcade.enable(this.spray);
-    this.spray.customParams ={health: 100};
+    this.spray.customParams = this.customParams;
    
       //items
    
       this.groupCosas = this.add.group();
     
       this.groupCosas.enableBody = true;
-        for (var i=0; i< 30; i++){ 
+        for (var i=0; i< 20; i++){ 
             this.createUniqueLocation();
         };
       this.groupCosas.forEach(function(item) {
@@ -68,19 +75,24 @@ level1.prototype = {
       this.game.physics.arcade.enable(this.roachies);
       this.game.physics.arcade.enable(this.groupCosas);
     //texto
-    this.text = this.game.add.text(700, 40, 'Tiempo: 60', { font: "25px Arial", fill: "#fff", align: "center" });
-    this.text.anchor.setTo(0.5, 0.5);
+   
     this.style = {font: '20px Arial', fill:'#fff'};
-    this.game.add.text(10,20,'Health: ', this.style);
-    this.healthText = this.game.add.text(80,20,'',this.style);  
+    this.style2 = {font: '20px Arial', fill:'#ff0000'};
+    this.text = this.game.add.text(650, 20, 'Timer: 60', this.style);
+    this.game.add.text(535,20,'Health: ', this.style);
+    this.healthText = this.game.add.text(600,20,'',this.style);
+    this.game.add.text(410,20,'Attempts: ', this.style);
+    this.attempts = this.game.add.text(500,20,'',this.style);
+    this.game.add.text(300,20,'Score: ', this.style);
+    this.score = this.game.add.text(350,20,'',this.style2);
     this.refreshStats();
       
     this.groupCosas.setAll('body.immovable', true);
     this.roachies.setAll('body.immovable', true);
-
-      
       //cronometro - tiempo
-    this.game.time.events.loop(Phaser.Timer.SECOND * 1, this.updateCounter, this);
+      console.log("aaa :  " + this.interval);
+    this.timer.loop(this.interval, this.updateCounter, this);
+    this.timer.start();
   }, 
     
   update: function() {
@@ -128,18 +140,28 @@ level1.prototype = {
     this.groupCosas.create(x * 58, y * 58, 'cosas', this.game.rnd.integerInRange(0, 4));
 
 },
-    
     refreshStats: function(){
         this.healthText.text = this.spray.customParams.health;
+        this.attempts.text = this.spray.customParams.attempts;
     },
   updateCounter:function() {
     if (this.counter > 0){
-         this.counter--;
-        this.text.setText('Tiempo: ' + this.counter);
+         this.counter-=1;
+        this.text.setText('Timer: ' + this.counter);
     }
       else {
-          this.game.time.events.destroy();
-          this.game.state.start("GameOver");
+          
+          if (this.spray.customParams.attempts > 1){
+              
+              this.timer.destroy();
+              this.game.world.removeAll();
+              this.customParams.attempts -=1;
+              this.create();
+          }else{
+              //this.game.time.events.destroy();
+              this.timer.remove();
+              this.game.state.start("GameOver");
+          }
     }
 },
     collisionHandler:function (spray, roachies) {
@@ -165,10 +187,16 @@ level1.prototype = {
     }
     },
     healthState: function (){
-        this.game.state.start("GameOver");
+        
+        if (this.spray.customParams.attempts > 1){
+              this.timer.destroy();
+              this.game.world.removeAll();
+              this.customParams.attempts -=1;
+              this.create();
+          }else{
+              //this.game.time.events.destroy();
+              this.timer.remove();
+              this.game.state.start("GameOver");
+        }
     }
-
 }
-
-
-
