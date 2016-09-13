@@ -3,6 +3,8 @@ var preload = function(game){}
 preload.prototype = {
     preload: function(){
            this.game.load.image('instructions',"assets/images/GameImage-02.png");
+            this.game.load.audio('win', ['assets/audio/win.mp3']);
+        this.game.load.audio('gameover', ['assets/audio/gameover.mp3']);
            console.log('hello its me 2');
 	},
   	create: function(){
