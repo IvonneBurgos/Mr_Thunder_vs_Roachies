@@ -31,13 +31,14 @@ level1.prototype = {
     this.game.load.image('youwin',"assets/images/GameImage-04.png");
     this.game.load.image('spray', 'assets/images/spray.png'); 
     this.game.load.spritesheet('cosas', 'assets/images/items-01.png', 58, 60);
-    this.game.load.image('roach', 'assets/images/roach.png', 48, 58); 
+    this.game.load.image('roach', 'assets/images/roach.png', 48, 58);
+    this.game.load.image('boss', 'assets/images/roachFinal.png', 48, 58);
   },
   
     //executed after everything is loaded
   create: function() {  
     this.timer = this.game.time.create(false);
-    
+    this.bossScore = 20;
     this.roachDead = 0;
     this.counter=60;
       
@@ -100,6 +101,12 @@ level1.prototype = {
     this.game.physics.arcade.collide(this.spray, this.groupCosas, this.collisionHandlerItems, null, this);
     this.spray.body.velocity.x = 0;
     this.spray.body.velocity.y = 0;
+      
+    if (this.boss){
+         this.game.physics.arcade.collide(this.spray, this.boss, this.collisionHandlerBoss, null, this);
+         this.refreshStats();
+        console.log('osea se choca pues al big boss');
+    }  
 
     if (this.cursors.left.isDown)
     {
@@ -144,6 +151,16 @@ level1.prototype = {
         this.attempts.text = this.spray.customParams.attempts;
         this.score.text = this.spray.customParams.score;
     },
+    
+    bigboss: function(){
+            console.log('crea al big boss');
+            this.boss = this.game.add.sprite(this.game.rnd.between(60, 700), this.game.rnd.between(100, 700), 'boss');
+            this.boss.enableBody = true;
+            this.boss.anchor.setTo(0.5, 0.5);
+            this.boss.scale.setTo(2);
+            this.game.physics.arcade.enable(this.boss);
+            this.boss.body.immovable = true;
+    },
   updateCounter:function() {
     if (this.counter > 0){
          this.counter-=1;
@@ -152,31 +169,52 @@ level1.prototype = {
       else {
           
           if (this.spray.customParams.attempts > 1){
-              
               this.timer.destroy();
               this.game.world.removeAll();
               this.customParams.attempts -=1;
               this.create();
           }else{
-              //this.game.time.events.destroy();
               this.timer.remove();
               this.game.state.start("GameOver");
           }
     }
 },
-    collisionHandler:function (spray, roachies) {
+    collisionHandler:function(spray, roachies){
+        this.spray.customParams.health -= 5;
         if (this.spray.customParams.health > 0){
-            this.spray.customParams.health -= 5;
             roachies.kill();
             this.roachDead +=1;
             this.spray.customParams.score +=10;
             this.refreshStats();
-            if (this.roachDead == 10){
-                this.game.state.start("YouWin");
+            if (this.spray.customParams.score == 100){
+                console.log('llama a funcion big boss');
+                this.bigboss();
             }
+            
         } else {
             this.healthState();
         }
+    },
+    collisionHandlerBoss:function (spray, boss) {
+        this.spray.customParams.health -=10;
+        if (this.spray.customParams.health > 0){
+            this.bossScore -=10;
+            this.spray.customParams.score +=20;
+            this.refreshStats();
+            if (this.bossScore == 0){
+                console.log('mata al big boss');
+                boss.kill();
+                this.game.state.start("YouWin");
+            }else {
+                this.boss.kill();
+                this.bigboss();
+            }
+        } else {
+            this.boss.destroy();
+            this.healthState();
+        }
+        
+        this.refreshStats();
     },
     collisionHandlerItems:function (spray, groupCosas) {
 
@@ -188,14 +226,12 @@ level1.prototype = {
     }
     },
     healthState: function (){
-        
         if (this.spray.customParams.attempts > 1){
               this.timer.destroy();
               this.game.world.removeAll();
               this.customParams.attempts -=1;
               this.create();
           }else{
-              //this.game.time.events.destroy();
               this.timer.remove();
               this.game.state.start("GameOver");
         }
