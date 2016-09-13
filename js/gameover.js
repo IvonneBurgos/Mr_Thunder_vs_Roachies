@@ -6,6 +6,7 @@ gameover.prototype = {
 	preload: function(){
         console.log('hello its me game over');
        // this.game.sound.stopAll();
+        this.game.sound.restart();
         
 	},
   	create: function(){
