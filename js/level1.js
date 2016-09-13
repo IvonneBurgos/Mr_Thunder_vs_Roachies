@@ -24,7 +24,7 @@ level1.prototype = {
   //load the game assets before the game starts
   preload: function() {
     this.game.load.audio('intro', ['assets/audio/Intro.mp3']);
-    this.game.load.audio('introlater', ['assets/audio/Intro.mp3']);
+    this.game.load.audio('gameover', ['assets/audio/gameover.mp3']);
     this.game.load.image('gameover',"assets/images/GameImage-03.png");
     this.game.load.image('youwin',"assets/images/GameImage-04.png");
     this.game.load.image('spray', 'assets/images/spray.png'); 
