@@ -10,7 +10,7 @@ gameover.prototype = {
 	},
   	create: function(){
 		var playButton = this.game.add.button(0,0,"gameover",this.playTheGame,this);
-        this.music = this.game.sound.play('gameover');
+        this.game.sound.play('gameover');
 	},
     playTheGame: function(){
         this.game.state.start("info_level1");

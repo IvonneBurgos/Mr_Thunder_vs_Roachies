@@ -138,6 +138,7 @@ level1.prototype = {
     }
       else {
           this.game.time.events.destroy();
+          this.game.sound.destroy();
           this.game.cache.removeSound('intro');
           this.game.state.start("GameOver");
     }
@@ -165,8 +166,8 @@ level1.prototype = {
     }
     },
     healthState: function (){
-        this.game.cache.removeSound('intro');
         this.game.sound.destroy();
+        this.game.cache.removeSound('intro');
         this.game.state.start("GameOver");
     }
 
