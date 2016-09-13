@@ -5,6 +5,7 @@ var youwin = function(game){
 youwin.prototype = {
 	preload: function(){
         console.log('hello its me You Win');
+         this.game.load.audio('intro', ['assets/audio/Intro.mp3']);
         this.game.sound.stopAll();
 	},
   	create: function(){
