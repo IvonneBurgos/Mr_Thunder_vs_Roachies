@@ -4,8 +4,6 @@ var youwin = function(game){
   
 youwin.prototype = {
 	preload: function(){
-          //this.game.load.image('g',"assets/images/GameImage-01.png");
-         // this.game.add.sprite(800,800,'loading');
         console.log('hello its me You Win');
         this.game.sound.stopAll();
 	},

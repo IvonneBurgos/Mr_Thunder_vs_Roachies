@@ -4,10 +4,9 @@ var gameover = function(game){
   
 gameover.prototype = {
 	preload: function(){
-          //this.game.load.image('g',"assets/images/GameImage-01.png");
-         // this.game.add.sprite(800,800,'loading');
         console.log('hello its me game over');
-        this.game.sound.stopAll();
+        this.game.load.audio('introlater', ['assets/audio/Intro.mp3']);
+        this.game.sound.removeByKey('intro');
         
 	},
   	create: function(){
