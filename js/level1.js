@@ -32,7 +32,7 @@ level1.prototype = {
     this.game.load.image('spray', 'assets/images/spray.png'); 
     this.game.load.spritesheet('cosas', 'assets/images/items-01.png', 58, 60);
     this.game.load.image('roach', 'assets/images/roach.png', 48, 58);
-    this.game.load.image('boss', 'assets/images/roachFinal.png', 48, 58);
+    this.game.load.image('boss', 'assets/images/roachFinalF.png', 120, 120);
   },
   
     //executed after everything is loaded
@@ -157,7 +157,7 @@ level1.prototype = {
             this.boss = this.game.add.sprite(this.game.rnd.between(60, 700), this.game.rnd.between(100, 700), 'boss');
             this.boss.enableBody = true;
             this.boss.anchor.setTo(0.5, 0.5);
-            this.boss.scale.setTo(2);
+            //this.boss.scale.setTo(2);
             this.game.physics.arcade.enable(this.boss);
             this.boss.body.immovable = true;
     },
