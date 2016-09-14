@@ -245,6 +245,7 @@ level2.prototype = {
               this.game.world.removeAll();
               this.customParams.attempts -=1;
               this.create();
+              console.log("Score: " + this.spray.customParams.score + " BossScore: " + this.bossScore);
           }else{
               this.timer.remove();
               this.game.state.start("GameOver");
