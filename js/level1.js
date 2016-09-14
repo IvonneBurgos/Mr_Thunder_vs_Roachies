@@ -80,8 +80,8 @@ level1.prototype = {
     this.style = {font: '20px Arial', fill:'#fff'};
     this.style2 = {font: '20px Arial', fill:'#ff0000'};
     this.text = this.game.add.text(650, 20, 'Timer: 60', this.style);
-    this.game.add.text(535,20,'Health: ', this.style);
-    this.healthText = this.game.add.text(600,20,'',this.style);
+    this.game.add.text(535,20,'Poison: ', this.style);
+    this.healthText = this.game.add.text(605,20,'',this.style);
     this.game.add.text(410,20,'Attempts: ', this.style);
     this.attempts = this.game.add.text(500,20,'',this.style);
     this.game.add.text(300,20,'Score: ', this.style);
@@ -105,7 +105,6 @@ level1.prototype = {
     if (this.boss){
          this.game.physics.arcade.collide(this.spray, this.boss, this.collisionHandlerBoss, null, this);
          this.refreshStats();
-        console.log('osea se choca pues al big boss');
     }  
 
     if (this.cursors.left.isDown)
@@ -206,7 +205,7 @@ level1.prototype = {
                 boss.kill();
                 this.game.state.start("YouWin");
             }else {
-                this.boss.kill();
+                boss.kill();
                 this.bigboss();
             }
         } else {

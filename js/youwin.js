@@ -14,6 +14,6 @@ youwin.prototype = {
         this.music = this.game.sound.play('win');
 	},
     playTheGame:function(){
-        this.game.state.start("level2");
+        this.game.state.start("info_level2");
     }
 }
